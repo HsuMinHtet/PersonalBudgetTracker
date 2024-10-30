@@ -25,8 +25,3 @@
 
 - **User Authentication**:
   - Secure user accounts for tracking and managing personal financial data.
-
-## Goals
-- Improve financial literacy and management.
-- Provide a user-friendly interface for budgeting.
-- Help users reduce unnecessary expenses and achieve savings targets.
