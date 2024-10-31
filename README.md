@@ -1,5 +1,7 @@
 # PersonalBudgetTracker
- ## Key Features
+ # Problem Statement
+The Personal Budget Tracker application helps users manage their finances by tracking income, expenses, budgets, and savings goals. Users can securely register, log in, and access endpoints to record and view financial transactions. The system provides automatic notifications when users exceed their budgets or reach savings milestones, and users receive a rank based on their financial performance. Additionally, users can export financial records for personal use or analysis.
+  # Key Features
 - **Income and Expense Tracking**: 
   - Users can log all income and expenses.
   - Transactions can be categorized (e.g., Food, Transportation).
