@@ -28,3 +28,8 @@ The Personal Budget Tracker application helps users manage their finances by tra
 
 - **User Authentication**:
   - Secure user accounts for tracking and managing personal financial data.
+ 
+
+. Architecture
+. Class Diagram
+. ER Diagram
