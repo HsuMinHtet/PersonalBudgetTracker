@@ -11,16 +11,17 @@
 - **Savings Goals**:
   - Set and track progress toward specific savings goals.
   - Visual indicators show goal completion status.
+  - Based of the number of completion goal user's rank will increase.(Silver, Gold and Platinum)
 
 - **Notifications**:
-  - Alerts for budget overages or goal updates.
+  - Email for budget exceedance or goal updates.
   - Reminders to review spending patterns.
 
 - **Dashboard**:
   - Provides an overview of income, expenses, budget usage, and goal progress.
 
 - **Financial Reports**:
-  - Generate monthly or custom reports to analyze spending.
+  - Generate/download in CSV for monthly or custom reports to analyze spending.
   - Track trends in expenses and income over time.
 
 - **User Authentication**:
