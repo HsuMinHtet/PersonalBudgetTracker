@@ -31,7 +31,7 @@ The Personal Budget Tracker application helps users manage their finances by tra
  
 
 . Architecture
-![System Architecture Diagram](assets/SystemArchitecture.png)
+![System Architecture Diagram](assets/SystmeArchitecture.png)
 
 
 
