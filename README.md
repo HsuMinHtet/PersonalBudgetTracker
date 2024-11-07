@@ -40,4 +40,6 @@ The Personal Budget Tracker application helps users manage their finances by tra
 
 
 
-. ER Diagram
+## ER Diagram
+![image](https://github.com/user-attachments/assets/a10bbdbe-776c-4d43-8117-d6afd76e6a96)
+
