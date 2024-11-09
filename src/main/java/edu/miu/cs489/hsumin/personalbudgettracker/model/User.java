@@ -11,6 +11,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Table(name="users")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -24,12 +25,16 @@ public class User {
     @Pattern(regexp = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$",
             message = "Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character")
     private String password;
+
     @NotBlank(message = "Email is required")
     @Email
     private String email;
     @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @JoinColumn(name="address_id")
     private Address address;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     public User(String name, String phone, String password, String email) {
         this.name = name;

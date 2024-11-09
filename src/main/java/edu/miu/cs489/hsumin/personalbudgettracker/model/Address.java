@@ -14,23 +14,9 @@ public class Address {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Integer address_id;
     private String city;
+    private String street;
+    private String number;
     private Integer postalCode;
-    @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-    @JoinColumn(name="state_id")
-    private State state;
-
-    public Address(String city, Integer postalCode, State state) {
-        this.city = city;
-        this.postalCode = postalCode;
-        this.state = state;
-    }
-
-    @Override
-    public String toString() {
-        return "Address{" +
-                "city='" + city + '\'' +
-                ", postalCode=" + postalCode +
-                ", state=" + state +
-                '}';
-    }
+    private String country;
+    private String state;
 }

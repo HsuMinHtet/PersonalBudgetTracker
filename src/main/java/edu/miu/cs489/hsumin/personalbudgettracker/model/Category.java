@@ -5,25 +5,30 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Entity
+import java.util.List;
+
+@Entity(name="categories")
 @NoArgsConstructor
-@Table(name="states")
 @Getter
 @Setter
-public class State {
+public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Integer state_id;
+    private Long id;
     private String name;
+    private String description;
+    @OneToMany(mappedBy = "category")
+    private List<Transaction> transactions;
 
-    public State(String name) {
+    public Category(String name, String description) {
         this.name = name;
+        this.description = description;
     }
-
     @Override
     public String toString() {
-        return "State{" +
+        return "Category{" +
                 "name='" + name + '\'' +
+                ", description='" + description + '\'' +
                 '}';
     }
 }
