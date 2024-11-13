@@ -6,11 +6,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Entity
+@Entity(name = "users")
 @NoArgsConstructor
 @Getter
 @Setter
-@Table(name="users")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class User {
     @Id
@@ -36,21 +35,4 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    public User(String name, String phone, String password, String email) {
-        this.name = name;
-        this.phone = phone;
-        this.password = password;
-        this.email = email;
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "name='" + name + '\'' +
-                ", phone='" + phone + '\'' +
-                ", password='" + password + '\'' +
-                ", email='" + email + '\'' +
-                ", address=" + address +
-                '}';
-    }
 }

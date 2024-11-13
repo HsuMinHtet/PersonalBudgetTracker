@@ -19,8 +19,13 @@ public class AccountHolderServiceImpl implements AccountHolderService {
     private final AccountHolderRepository accountHolderRepository;
 
     @Override
-    public Optional<AccountHolderResponseDTO> register(AccountHolderRequestDTO accountHolderRequestDTO) {
+    public Optional<AccountHolderResponseDTO> createAccountHolder(AccountHolderRequestDTO accountHolderRequestDTO) {
         AccountHolder accountHolder=accountHolderMapper.accountHolderRequestDTOToAccountHolder(accountHolderRequestDTO);
-        return Optional.of(accountHolderMapper.accountHolderToAccountHolderResponseDTO(accountHolderRepository.save(accountHolder)));
+       return Optional.of(accountHolderMapper.accountHolderToAccountHolderResponseDTO(accountHolderRepository.save(accountHolder)));
+    }
+
+    @Override
+    public Optional<AccountHolder> findByAccountHolderID(Integer id) {
+        return Optional.of(accountHolderRepository.findById(id).get());
     }
 }

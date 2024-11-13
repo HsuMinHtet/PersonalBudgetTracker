@@ -6,8 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
-
-public record AccountHolderRequestDTO(
+public record UserRequestDTO(
         @NotBlank(message = "Name is required")
         String name,
 
@@ -27,9 +26,5 @@ public record AccountHolderRequestDTO(
         @NotBlank(message = "Email is required")
         @Email
         String email,
-
-        @NotBlank(message = "Role is required")
-        Role role,
-
-        AddressRequestDTO addressRequestDTO
+        Role role
 ) { }

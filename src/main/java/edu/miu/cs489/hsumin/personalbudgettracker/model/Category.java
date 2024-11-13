@@ -15,20 +15,11 @@ public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
+    @Column(unique = true)
     private String name;
     private String description;
     @OneToMany(mappedBy = "category")
     private List<Transaction> transactions;
-
-    public Category(String name, String description) {
-        this.name = name;
-        this.description = description;
-    }
-    @Override
-    public String toString() {
-        return "Category{" +
-                "name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                '}';
-    }
+    @OneToMany(mappedBy = "category")
+    private List<Budget> budgets;
 }

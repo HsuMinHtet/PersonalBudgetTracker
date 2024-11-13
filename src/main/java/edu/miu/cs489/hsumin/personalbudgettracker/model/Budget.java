@@ -5,23 +5,25 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDate;
-
-@Entity(name="goals")
+@Entity(name = "budget")
 @Getter
 @Setter
 @NoArgsConstructor
-public class Goal {
+public class Budget {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long goalId;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Column(name = "id")
+    private Long budget_id;
     private String title;
     private Double targetAmount;
     private Double currentAmount;
-    private Boolean isAchieved;
+    private Boolean isExceed;
+
+    @ManyToOne
+    @JoinColumn(name="category_id")
+    private Category category;
 
     @ManyToOne
     @JoinColumn(name="accountHolder_id")
     private AccountHolder accountHolder;
-
 }

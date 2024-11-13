@@ -1,5 +1,8 @@
 package edu.miu.cs489.hsumin.personalbudgettracker.service.impl;
 
+import edu.miu.cs489.hsumin.personalbudgettracker.dto.requestDTO.UserRequestDTO;
+import edu.miu.cs489.hsumin.personalbudgettracker.dto.responseDTO.UserResponseDTO;
+import edu.miu.cs489.hsumin.personalbudgettracker.mapper.UserMapper;
 import edu.miu.cs489.hsumin.personalbudgettracker.model.User;
 import edu.miu.cs489.hsumin.personalbudgettracker.repository.UserRepository;
 import edu.miu.cs489.hsumin.personalbudgettracker.service.UserService;
@@ -11,9 +14,11 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
+    private final UserMapper userMapper;
+
     @Override
-    public Optional<User> register(User user) {
-        User savedUser=userRepository.save(user);
-        return Optional.of(savedUser);
+    public Optional<UserResponseDTO> createUserAdmin(UserRequestDTO userRequestDTO) {
+        User newAdminUser= userMapper.userRequestDTOToUser(userRequestDTO);
+        return Optional.of(userMapper.userToUserResponseDTO(userRepository.save(newAdminUser)));
     }
 }
