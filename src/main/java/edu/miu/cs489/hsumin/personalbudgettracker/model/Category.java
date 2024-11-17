@@ -22,4 +22,7 @@ public class Category {
     private List<Transaction> transactions;
     @OneToMany(mappedBy = "category")
     private List<Budget> budgets;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "account_holder_id", nullable = false)
+    private AccountHolder accountHolder;
 }

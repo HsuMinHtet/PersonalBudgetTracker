@@ -1,5 +1,6 @@
 package edu.miu.cs489.hsumin.personalbudgettracker.model;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import lombok.Getter;
@@ -16,7 +17,8 @@ import java.util.List;
 public class AccountHolder extends User{
     @OneToMany(mappedBy = "accountHolder")
     private List<Transaction> transactions= new ArrayList<>();
+    @OneToMany(mappedBy = "accountHolder", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Category> categories = new ArrayList<>();
     @OneToMany(mappedBy = "accountHolder")
     private List<Goal> goals= new ArrayList<>();
-
 }

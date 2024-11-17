@@ -23,7 +23,4 @@ public class Budget {
     @JoinColumn(name="category_id")
     private Category category;
 
-    @ManyToOne
-    @JoinColumn(name="accountHolder_id")
-    private AccountHolder accountHolder;
 }

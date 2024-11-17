@@ -14,7 +14,7 @@ import java.time.LocalDate;
 public class Goal {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long goalId;
+    private Long goal_Id;
     private String title;
     private Double targetAmount;
     private Double currentAmount;

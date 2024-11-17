@@ -7,6 +7,7 @@ import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity(name="transactions")
 @Getter
@@ -23,10 +24,13 @@ public class Transaction {
     @Enumerated(EnumType.STRING)
     private TransactionType type;
     @ManyToOne
-    @JoinColumn(name="accountHolder_id")
+    @JoinColumn(name="account_holder_id")
     private AccountHolder accountHolder;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="category_id")
     private Category category;
+
+    @CreationTimestamp
+    private LocalDateTime createdDate;
 
 }

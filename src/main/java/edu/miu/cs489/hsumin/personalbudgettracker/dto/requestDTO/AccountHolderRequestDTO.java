@@ -1,10 +1,9 @@
 package edu.miu.cs489.hsumin.personalbudgettracker.dto.requestDTO;
 
 import edu.miu.cs489.hsumin.personalbudgettracker.model.Role;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.validation.constraints.*;
 
 
 public record AccountHolderRequestDTO(
@@ -28,7 +27,8 @@ public record AccountHolderRequestDTO(
         @Email
         String email,
 
-        @NotBlank(message = "Role is required")
+        @NotNull(message = "Role is required")
+        @Enumerated(EnumType.STRING)
         Role role,
 
         AddressRequestDTO addressRequestDTO

@@ -7,6 +7,8 @@ import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
 public interface CategoryMapper {
+   // @Mapping(source ="categoryRequestDTO.addressRequestDTO" ,target = "address")
     Category categoryRequestDTOToCategory(CategoryRequestDTO categoryRequestDTO);
+   // @Mapping(source = "accountHolder.address", target = "categoryResponseDTO")
     CategoryResponseDTO categoryToCategoryResponseDTO(Category category);
 }
