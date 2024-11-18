@@ -7,6 +7,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,16 +21,17 @@ public class AccountHolderController {
     private final AccountHolderService accountHolderService;
 
     //AccountHolder(create account)
-    @PostMapping
-    private ResponseEntity<AccountHolderResponseDTO> createUser(@Valid @RequestBody AccountHolderRequestDTO accountHolderRequestDTO){
-        Optional<AccountHolderResponseDTO> accountHolderResponseDTO=accountHolderService.createAccountHolder(accountHolderRequestDTO);
-        if(accountHolderResponseDTO.isPresent()){
-            return ResponseEntity.status(HttpStatus.CREATED).body(accountHolderResponseDTO.get());
-        }
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-    }
+//    @PostMapping
+//    private ResponseEntity<AccountHolderResponseDTO> createUser(@Valid @RequestBody AccountHolderRequestDTO accountHolderRequestDTO){
+//        Optional<AccountHolderResponseDTO> accountHolderResponseDTO=accountHolderService.createAccountHolder(accountHolderRequestDTO);
+//        if(accountHolderResponseDTO.isPresent()){
+//            return ResponseEntity.status(HttpStatus.CREATED).body(accountHolderResponseDTO.get());
+//        }
+//        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+//    }
 
     //AccountHolder(update password)
+    @PreAuthorize("hasAuthority('ACCOUNT_HOLDER')")
     @PatchMapping("/{id}")
     public ResponseEntity<AccountHolderResponseDTO>updatePartially(
             @PathVariable Integer id,
@@ -40,6 +42,7 @@ public class AccountHolderController {
     }
 
     //AccountHolder(update account info)
+    @PreAuthorize("hasAuthority('ACCOUNT_HOLDER')")
     @PutMapping("/{id}")
     public ResponseEntity<AccountHolderResponseDTO>update(
             @PathVariable Integer id,
@@ -50,6 +53,7 @@ public class AccountHolderController {
     }
 
     //AccountHolder(find an account info)
+    @PreAuthorize("hasRole('ACCOUNT_HOLDER')")
     @GetMapping("/{id}")
     public ResponseEntity<AccountHolderResponseDTO> findUserByID(@PathVariable Integer id){
         Optional<AccountHolderResponseDTO> accountHolderResponseDTO= accountHolderService.findByAccountHolderID(id);
@@ -60,6 +64,7 @@ public class AccountHolderController {
     }
 
     //Admin(Delete AccountHolder)
+    @PreAuthorize("hasAuthority('ACCOUNT_HOLDER')")
     @DeleteMapping("/{id}")//api/v1/users/username
     public ResponseEntity<Void> deleteUser(@PathVariable Integer id){
         accountHolderService.deleteUserByUsername(id);
@@ -67,13 +72,15 @@ public class AccountHolderController {
     }
 
     //Admin(Get all AccountHolder)
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
     public ResponseEntity<List<AccountHolderResponseDTO>> findAllUsers(){
         List<AccountHolderResponseDTO> accountHolderResponseDTOS= accountHolderService.findAllUsers();
         return ResponseEntity.status(HttpStatus.OK).body(accountHolderResponseDTOS);
     }
 
-    //Multiple Criteria
+    //Admin(Multiple Criteria)
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/criteria")
     public List<AccountHolderResponseDTO> searchAccountHolders(
             @RequestParam(required = false) String name,

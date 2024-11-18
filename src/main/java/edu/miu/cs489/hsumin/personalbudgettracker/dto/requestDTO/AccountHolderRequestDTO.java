@@ -21,6 +21,7 @@ public record AccountHolderRequestDTO(
                 regexp = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$",
                 message = "Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character"
         )
+        @NotBlank(message = "Password is required")
         String password,
 
         @NotBlank(message = "Email is required")

@@ -101,7 +101,7 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public List<TransactionResponseDTO> searchTransactions(Integer accountHolder_id, LocalDate transactionDate, Double amount, TransactionType transactionType, String description, Long categoryId) {
         List<Transaction> filteredTransactionByAccountHolders = transactionRepository.findALLByAccountHolder_Id(accountHolder_id).stream()
-                .filter(transaction -> (transactionDate == null || transaction.getTransactionDate().isAfter(transactionDate)))
+                .filter(transaction -> (transactionDate == null || transaction.getTransactionDate().isEqual(transactionDate)))
                 .filter(transaction -> (amount == null || transaction.getAmount().equals(amount)))
                 .filter(transaction -> (transactionType == null || transaction.getType().equals(transactionType)))
                 .filter(transaction -> (description == null || transaction.getDescription().equalsIgnoreCase(description)))
