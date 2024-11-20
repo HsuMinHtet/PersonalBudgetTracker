@@ -33,7 +33,7 @@ public class AuthenticationService {
         AccountHolder registerAccountHolder= accountHolderRepository.save(accountHolder);
         //generate token
         String token= jwtService.generateToken(registerAccountHolder);
-        return new AuthenticationResponse(token);
+        return new AuthenticationResponse(token, registerAccountHolder.getId(), registerAccountHolder.getRole());
     }
 
     public AuthenticationResponse authenticate(AuthenticationRequest authenticationRequest) {
@@ -51,6 +51,6 @@ public class AuthenticationService {
         user.setLastLogin(LocalDateTime.now());
         userRepository.save(user);
         String token=jwtService.generateToken(user);
-        return new AuthenticationResponse(token);
+        return new AuthenticationResponse(token, user.getId(), user.getRole());
     }
 }

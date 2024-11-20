@@ -25,11 +25,8 @@ public class JWTService {
                  .issuer("BudgetTracker") //issuer
                  .expiration(new Date(System.currentTimeMillis()+1000*60*60*24))
                  .subject(userDetails.getUsername()) //identity (user name)
-                 .claim("authorities",userDetails.getAuthorities().stream()
-                         .map(GrantedAuthority::getAuthority)
-                         .collect(Collectors.toList()))
-                         //"authorities", userDetails.getAuthorities()) //include in payload
-                         //"authorities",populateAuthorities(userDetails))
+                 .claim(
+                         "authorities", userDetails.getAuthorities()) //include in payload
                  .signWith(signInKey())
                  .compact();
          return token;
