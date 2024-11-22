@@ -31,31 +31,31 @@ public class AccountHolderController {
 //    }
 
     //AccountHolder(update password)
-    @PreAuthorize("hasAuthority('ACCOUNT_HOLDER')")
+    @PreAuthorize("hasRole('ACCOUNT_HOLDER')")
     @PatchMapping("/{id}")
     public ResponseEntity<AccountHolderResponseDTO>updatePartially(
             @PathVariable Integer id,
             @RequestBody AccountHolderRequestDTO accountHolderRequestDTO
     ){
-        Optional<AccountHolderResponseDTO> accountHolderResponseDTO= accountHolderService.updateUserPartially(id, accountHolderRequestDTO);
+        Optional<AccountHolderResponseDTO> accountHolderResponseDTO= accountHolderService.updateAccountHolderPartially(id, accountHolderRequestDTO);
         return ResponseEntity.status(HttpStatus.OK).body(accountHolderResponseDTO.get());
     }
 
     //AccountHolder(update account info)
-    @PreAuthorize("hasAuthority('ACCOUNT_HOLDER')")
+    @PreAuthorize("hasRole('ACCOUNT_HOLDER')")
     @PutMapping("/{id}")
     public ResponseEntity<AccountHolderResponseDTO>update(
             @PathVariable Integer id,
             @RequestBody @Valid AccountHolderRequestDTO accountHolderRequestDTO
     ){
-        Optional<AccountHolderResponseDTO> accountHolderResponseDTO= accountHolderService.updateUser(id, accountHolderRequestDTO);
+        Optional<AccountHolderResponseDTO> accountHolderResponseDTO= accountHolderService.updateAccountHolder(id, accountHolderRequestDTO);
         return ResponseEntity.status(HttpStatus.OK).body(accountHolderResponseDTO.get());
     }
 
     //AccountHolder(find an account info)
     @PreAuthorize("hasRole('ACCOUNT_HOLDER')")
     @GetMapping("/{id}")
-    public ResponseEntity<AccountHolderResponseDTO> findUserByID(@PathVariable Integer id){
+    public ResponseEntity<AccountHolderResponseDTO> findAccountHolderByID(@PathVariable Integer id){
         Optional<AccountHolderResponseDTO> accountHolderResponseDTO= accountHolderService.findByAccountHolderID(id);
         if(accountHolderResponseDTO.isPresent()){
         return ResponseEntity.status(HttpStatus.OK).body(accountHolderResponseDTO.get());
@@ -64,18 +64,18 @@ public class AccountHolderController {
     }
 
     //Admin(Delete AccountHolder)
-    @PreAuthorize("hasAuthority('ACCOUNT_HOLDER')")
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")//api/v1/users/username
-    public ResponseEntity<Void> deleteUser(@PathVariable Integer id){
-        accountHolderService.deleteUserByUsername(id);
+    public ResponseEntity<Void> deleteAccountHolder(@PathVariable Integer id){
+        accountHolderService.deleteAccountHolderByName(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
     //Admin(Get all AccountHolder)
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
-    public ResponseEntity<List<AccountHolderResponseDTO>> findAllUsers(){
-        List<AccountHolderResponseDTO> accountHolderResponseDTOS= accountHolderService.findAllUsers();
+    public ResponseEntity<List<AccountHolderResponseDTO>> findAllAccountHolder(){
+        List<AccountHolderResponseDTO> accountHolderResponseDTOS= accountHolderService.findAllAccountHolders();
         return ResponseEntity.status(HttpStatus.OK).body(accountHolderResponseDTOS);
     }
 
@@ -91,6 +91,4 @@ public class AccountHolderController {
     }
 
     //Admin(Get the AccountHOlder List whose last login time is > a year)
-
-
 }

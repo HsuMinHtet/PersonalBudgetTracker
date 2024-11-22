@@ -8,11 +8,11 @@ import java.util.Optional;
 
 public interface AccountHolderService {
     Optional<AccountHolderResponseDTO> createAccountHolder(AccountHolderRequestDTO accountHolderRequestDTO);
-    List<AccountHolderResponseDTO> findAllUsers();
-    Optional<AccountHolderResponseDTO> updateUser(Integer id, AccountHolderRequestDTO accountHolderRequestDTO);
-    Optional<AccountHolderResponseDTO> updateUserPartially(Integer id, AccountHolderRequestDTO accountHolderRequestDTO);
+    List<AccountHolderResponseDTO> findAllAccountHolders();
+    Optional<AccountHolderResponseDTO> updateAccountHolder(Integer id, AccountHolderRequestDTO accountHolderRequestDTO);
+    Optional<AccountHolderResponseDTO> updateAccountHolderPartially(Integer id, AccountHolderRequestDTO accountHolderRequestDTO);
     Optional<AccountHolderResponseDTO>  findByAccountHolderID(Integer id);
-    void deleteUserByUsername(Integer id);
+    void deleteAccountHolderByName(Integer id);
 
     List<AccountHolderResponseDTO> searchAccountHolders(String name, String city, String country);
 }

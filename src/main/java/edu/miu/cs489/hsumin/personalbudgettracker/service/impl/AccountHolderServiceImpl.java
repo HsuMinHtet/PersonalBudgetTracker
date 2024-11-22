@@ -10,6 +10,7 @@ import edu.miu.cs489.hsumin.personalbudgettracker.repository.AccountHolderReposi
 import edu.miu.cs489.hsumin.personalbudgettracker.service.AccountHolderService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -23,6 +24,7 @@ public class AccountHolderServiceImpl implements AccountHolderService {
 
     private final AccountHolderMapper accountHolderMapper;
     private final AccountHolderRepository accountHolderRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public Optional<AccountHolderResponseDTO> createAccountHolder(AccountHolderRequestDTO accountHolderRequestDTO) {
@@ -31,7 +33,7 @@ public class AccountHolderServiceImpl implements AccountHolderService {
     }
 
     @Override
-    public List<AccountHolderResponseDTO> findAllUsers() {
+    public List<AccountHolderResponseDTO> findAllAccountHolders() {
         List<AccountHolder> accountHolders= accountHolderRepository.findAll();
         List<AccountHolderResponseDTO> accountHolderResponseDTOS= new ArrayList<>();
         for(AccountHolder accountHolder:accountHolders){
@@ -41,7 +43,7 @@ public class AccountHolderServiceImpl implements AccountHolderService {
     }
 
     @Override
-    public Optional<AccountHolderResponseDTO> updateUser(Integer id, AccountHolderRequestDTO accountHolderRequestDTO) {
+    public Optional<AccountHolderResponseDTO> updateAccountHolder(Integer id, AccountHolderRequestDTO accountHolderRequestDTO) {
         Optional<AccountHolder> foundAccountHolder=accountHolderRepository.findById(id);
         if(foundAccountHolder.isPresent()){
             AccountHolder accountHolder= foundAccountHolder.get();
@@ -69,12 +71,13 @@ public class AccountHolderServiceImpl implements AccountHolderService {
     }
 
     @Override
-    public Optional<AccountHolderResponseDTO> updateUserPartially(Integer id, AccountHolderRequestDTO accountHolderRequestDTO) {
+    public Optional<AccountHolderResponseDTO> updateAccountHolderPartially(Integer id, AccountHolderRequestDTO accountHolderRequestDTO) {
         Optional<AccountHolder> foundAccountHolder=accountHolderRepository.findById(id);
         if(foundAccountHolder.isPresent()){
             AccountHolder accountHolder= foundAccountHolder.get();
+
             if(accountHolderRequestDTO.password()!=null){
-                accountHolder.setPassword(accountHolderRequestDTO.password());
+                accountHolder.setPassword(passwordEncoder.encode(accountHolderRequestDTO.password()));
             }
             return Optional.of(accountHolderMapper.accountHolderToAccountHolderResponseDTO(accountHolderRepository.save(accountHolder)));
         }
@@ -88,7 +91,7 @@ public class AccountHolderServiceImpl implements AccountHolderService {
 
     @Override
     @Transactional
-    public void deleteUserByUsername(Integer id) {
+    public void deleteAccountHolderByName(Integer id) {
         findByAccountHolderID(id).ifPresent(
                 accountHolderResponseDTO -> accountHolderRepository.deleteById(id)
         );

@@ -32,7 +32,6 @@ public class SecurityConfiguration {
                         request ->
                                 request.requestMatchers("/api/v1/auth/authenticate").permitAll()
                                         .requestMatchers("/api/v1/auth/account-holder-register").permitAll()
-                                        .requestMatchers("/api/v1/account-holder/criteria").hasRole("ADMIN")
                                         //.requestMatchers("/api/v1/account-holder/").permitAll()
                                         .anyRequest()
                                         .authenticated()

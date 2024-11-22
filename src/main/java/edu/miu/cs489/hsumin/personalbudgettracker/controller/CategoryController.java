@@ -7,6 +7,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,6 +20,7 @@ public class CategoryController {
 
     private final CategoryService categoryService;
 
+    @PreAuthorize("hasRole('ACCOUNT_HOLDER')")
     @PostMapping
     //AccountHolder (Create category)
     private ResponseEntity<CategoryResponseDTO> createUser(@Valid @RequestBody CategoryRequestDTO categoryRequestDTO){
@@ -29,6 +31,7 @@ public class CategoryController {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
     }
     //AccountHolder (Update category)
+    @PreAuthorize("hasRole('ACCOUNT_HOLDER')")
     @PutMapping("/{id}")
     public ResponseEntity<CategoryResponseDTO>updateCategory(
             @PathVariable Long id,
@@ -38,6 +41,7 @@ public class CategoryController {
         return ResponseEntity.status(HttpStatus.OK).body(categoryResponseDTO.get());
     }
     //AccountHolder (Delete category)
+    @PreAuthorize("hasRole('ACCOUNT_HOLDER')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCategory(@PathVariable Long id){
         categoryService.deleteCategory(id);
@@ -45,6 +49,7 @@ public class CategoryController {
     }
 
     //AccountHolder (Find categoryById)
+    @PreAuthorize("hasRole('ACCOUNT_HOLDER')")
     @GetMapping("/{id}")
     private ResponseEntity<CategoryResponseDTO> findCategoryById(@PathVariable Long id){
         Optional<CategoryResponseDTO> categoryResponseDTO= categoryService.findByCategoryID(id);
@@ -55,6 +60,7 @@ public class CategoryController {
     }
 
     //AccountHolder (Find All category)
+    @PreAuthorize("hasRole('ACCOUNT_HOLDER')")
     @GetMapping
     public ResponseEntity<List<CategoryResponseDTO>> findAllCategory(@RequestHeader Integer accountHolder_id){
         List<CategoryResponseDTO> categoryResponseDTOS= categoryService.findAllCategory(accountHolder_id);
@@ -62,8 +68,9 @@ public class CategoryController {
     }
 
     //AccountHolder(Multiple Criteria)
+    @PreAuthorize("hasRole('ACCOUNT_HOLDER')")
     @GetMapping("/criteria")
-    public List<CategoryResponseDTO> searchAccountHolders(
+    public List<CategoryResponseDTO> searchCategories(
             @RequestHeader Integer accountHolder_id,
             @RequestParam(required = false) String name,
             @RequestParam(required = false) String description

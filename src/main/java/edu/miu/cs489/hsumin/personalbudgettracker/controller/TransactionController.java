@@ -8,6 +8,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -22,6 +23,7 @@ public class TransactionController {
     private final TransactionService transactionService;
 
     //AccountHolder (Create Transaction)
+    @PreAuthorize("hasRole('ACCOUNT_HOLDER')")
     @PostMapping
     private ResponseEntity<TransactionResponseDTO> createTransaction(@Valid @RequestBody TransactionRequestDTO transactionRequestDTO){
         Optional<TransactionResponseDTO> transactionResponseDTOr=transactionService.createTransaction( transactionRequestDTO);
@@ -29,6 +31,7 @@ public class TransactionController {
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null));
     }
     //AccountHolder (Update Transaction)
+    @PreAuthorize("hasRole('ACCOUNT_HOLDER')")
     @PutMapping("/{id}")
     public ResponseEntity<TransactionResponseDTO> updateTransaction(
             @PathVariable Long id,
@@ -38,12 +41,14 @@ public class TransactionController {
         return ResponseEntity.status(HttpStatus.OK).body(transactionResponseDTO.get());
     }
     //AccountHolder (Delete Transaction)
+    @PreAuthorize("hasRole('ACCOUNT_HOLDER')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteTransaction( @PathVariable Long id){
         transactionService.deleteTransaction(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
     //AccountHolder (Find transactionById)
+    @PreAuthorize("hasRole('ACCOUNT_HOLDER')")
     @GetMapping("/{id}")
     private ResponseEntity<TransactionResponseDTO> findTransactionsById( @PathVariable Long id){
         Optional<TransactionResponseDTO> transactionResponseDTO= transactionService.findByTransactionID(id);
@@ -53,12 +58,14 @@ public class TransactionController {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
     }
     //AccountHolder (Find All Transaction)
+    @PreAuthorize("hasRole('ACCOUNT_HOLDER')")
     @GetMapping
     public ResponseEntity<List<TransactionResponseDTO>> findAllTransactions(@RequestHeader Integer accountHolder_id){
         List<TransactionResponseDTO> transactionResponseDTO= transactionService.findAllTransactions(accountHolder_id);
         return ResponseEntity.status(HttpStatus.OK).body(transactionResponseDTO);
     }
     //AccountHolder(Multiple Criteria)
+    @PreAuthorize("hasRole('ACCOUNT_HOLDER')")
     @GetMapping("/criteria")
     public List<TransactionResponseDTO> searchTransactions(
             @RequestHeader Integer accountHolder_id,
