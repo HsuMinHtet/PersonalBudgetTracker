@@ -2,11 +2,13 @@ package edu.miu.cs489.hsumin.personalbudgettracker.dto.auth;
 
 import edu.miu.cs489.hsumin.personalbudgettracker.config.JWTService;
 import edu.miu.cs489.hsumin.personalbudgettracker.dto.requestDTO.AccountHolderRequestDTO;
+import edu.miu.cs489.hsumin.personalbudgettracker.exception.accountHolder.UserNotFoundException;
 import edu.miu.cs489.hsumin.personalbudgettracker.mapper.AccountHolderMapper;
 import edu.miu.cs489.hsumin.personalbudgettracker.model.AccountHolder;
 import edu.miu.cs489.hsumin.personalbudgettracker.model.User;
 import edu.miu.cs489.hsumin.personalbudgettracker.repository.AccountHolderRepository;
 import edu.miu.cs489.hsumin.personalbudgettracker.repository.UserRepository;
+import edu.miu.cs489.hsumin.personalbudgettracker.service.EmailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -14,7 +16,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.security.SecureRandom;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -26,6 +30,7 @@ public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final JWTService jwtService;
     private final AuthenticationManager authenticationManager;
+    private final EmailService emailService;
 
     public AuthenticationResponse accountHolderRegister(AccountHolderRequestDTO accountHolderRequestDTO) {
         AccountHolder accountHolder=accountHolderMapper.accountHolderRequestDTOToAccountHolder(accountHolderRequestDTO);
@@ -53,4 +58,42 @@ public class AuthenticationService {
         String token=jwtService.generateToken(user);
         return new AuthenticationResponse(token, user.getId(), user.getRole());
     }
+
+    public void sendPasswordResetToken(ForgotPasswordRequest forgotPasswordRequest) {
+        AccountHolder accountHolder = accountHolderRepository.findByEmail(forgotPasswordRequest.email())
+                .orElseThrow(() -> new UserNotFoundException("User not found with email: " + forgotPasswordRequest.email()));
+
+        // Generate a random 5-character password
+        String defaultPassword = generateRandomPassword(8)+"@123";
+        accountHolder.setPassword(passwordEncoder.encode(defaultPassword)); // Token expires in 1 hour
+        accountHolderRepository.save(accountHolder);
+
+        // Send email with default password and instructions
+        String emailBody = String.format(
+                "Hello %s,\n\nYour default password is: %s\n\n" +
+                        "Please log in using this password and update your password immediately.\n" +
+                        "Thank you!\n\nBest regards,\nPersonal Budget Tracker",
+                accountHolder.getEmail(),
+                " [ "+ defaultPassword+" ] "
+        );
+
+        // Send the email
+        emailService.sendEmail(
+                accountHolder.getEmail(),
+                "Your Default Password",
+                emailBody
+        );
+    }
+    private String generateRandomPassword(int length) {
+        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        SecureRandom random = new SecureRandom();
+        StringBuilder password = new StringBuilder(length);
+
+        for (int i = 0; i < length; i++) {
+            password.append(characters.charAt(random.nextInt(characters.length())));
+        }
+
+        return password.toString();
+    }
+
 }

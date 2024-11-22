@@ -4,6 +4,7 @@ package edu.miu.cs489.hsumin.personalbudgettracker.unsecured;
 import edu.miu.cs489.hsumin.personalbudgettracker.dto.auth.AuthenticationRequest;
 import edu.miu.cs489.hsumin.personalbudgettracker.dto.auth.AuthenticationResponse;
 import edu.miu.cs489.hsumin.personalbudgettracker.dto.auth.AuthenticationService;
+import edu.miu.cs489.hsumin.personalbudgettracker.dto.auth.ForgotPasswordRequest;
 import edu.miu.cs489.hsumin.personalbudgettracker.dto.requestDTO.AccountHolderRequestDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -31,5 +32,12 @@ public class AuthenticationController {
         AuthenticationResponse authenticationResponse=authenticationService.authenticate(authenticationRequest);
         return ResponseEntity.status(HttpStatus.OK).body(authenticationResponse);
     }
+
+    @PostMapping("/forgot-password")
+    public ResponseEntity<String> forgotPassword(@RequestBody ForgotPasswordRequest request) {
+        authenticationService.sendPasswordResetToken(request);
+        return ResponseEntity.ok("Password reset link sent to your email.");
+    }
+
 
 }
