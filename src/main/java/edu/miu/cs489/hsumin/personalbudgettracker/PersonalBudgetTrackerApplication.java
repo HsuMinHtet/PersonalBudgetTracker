@@ -8,6 +8,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 
 import java.time.LocalDate;
 
@@ -20,6 +21,7 @@ public class PersonalBudgetTrackerApplication {
     private final CategoryService categoryService;
     private final TransactionService transactionService;
     private final GoalService goalService;
+
 
     public static void main(String[] args) {
         SpringApplication.run(PersonalBudgetTrackerApplication.class, args);

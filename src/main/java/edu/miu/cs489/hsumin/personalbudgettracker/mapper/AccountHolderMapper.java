@@ -1,12 +1,12 @@
 package edu.miu.cs489.hsumin.personalbudgettracker.mapper;
 
+
 import edu.miu.cs489.hsumin.personalbudgettracker.dto.requestDTO.AccountHolderRequestDTO;
 import edu.miu.cs489.hsumin.personalbudgettracker.dto.responseDTO.AccountHolderResponseDTO;
 import edu.miu.cs489.hsumin.personalbudgettracker.model.AccountHolder;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-import java.util.Optional;
 
 @Mapper(componentModel = "spring")
 public interface AccountHolderMapper {
